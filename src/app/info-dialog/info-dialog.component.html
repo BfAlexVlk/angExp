@@ -1,0 +1,34 @@
+<div id="modal-content-wrapper">
+    
+<div class="" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-centered " role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Заявка</h5>
+           
+        </div>
+        <div class="modal-body">
+            <h5>Статус</h5>
+            <p>{{data.status}}</p>
+            <h5 >Домен. имя</h5>
+            <p>{{data.domainName}}</p>
+            <h5>Номер обращения</h5>
+            <p>{{data.regNum}}</p>
+            <h5 >Наименование ИС</h5>
+            <p>{{data.infoSystem}}</p>
+            <h5 >Для внутренней сети</h5>
+            <p>{{data.internalNetwork}}</p>
+            <h5 >Для внешней сети</h5>
+            <p>{{data.externalNetwork}}</p>
+            <h5 >Дата</h5>
+            <p>{{data.date  }}</p>
+        </div>
+        <div class="modal-footer">
+          
+            <button  class="btn btn-primary" (click)="dialogRef.close(data)">Ok</button>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

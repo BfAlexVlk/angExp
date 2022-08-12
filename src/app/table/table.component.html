@@ -1,0 +1,90 @@
+<div class="col-12">
+  <div class="row header-row">
+    <div class="mr-3 page-title">
+      Регистрация в журнале
+    </div>
+    <div class="search-form">
+
+      <div class="input-group mr-3">
+        <input type="text" class="form-control" placeholder="Поиск" [formControl]="searchFormControl">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="searchFormControl.setValue('')">
+            x
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <div class="ml-3">
+      <div class="btn btn-primary" (click)="onCreate()"><i class="fas fa-plus pr-2"></i>Добавить</div>
+    </div>
+  </div>
+  <div class="">
+    <div class="table-container">
+      <table cdk-table [dataSource]="dataOnPage$" class="table" matSort>
+        <tr cdk-row *cdkHeaderRowDef="columns">
+          1
+        </tr>
+        <tr cdk-row *cdkRowDef="let row; columns:columns" [ngClass]="'status-'+ row.status"></tr>
+
+        <ng-container cdkColumnDef="status">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('status')">Статус</th>
+          <td cdk-cell *cdkCellDef="let row" [ngClass]="'col-status-'+ row.status">{{row.status | status}} </td>
+        </ng-container>
+
+
+        <ng-container cdkColumnDef="domainName">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('domainName')">Домен. имя</th>
+          <td cdk-cell *cdkCellDef="let row">{{row.domainName}} </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="regNum">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('regNum')">Номер обращения</th>
+          <td cdk-cell *cdkCellDef="let row">{{row.regNum}} </td>
+        </ng-container>
+
+
+        <ng-container cdkColumnDef="type">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('type')">Тип DNS записи</th>
+          <td cdk-cell *cdkCellDef="let row">{{row.type}} </td>
+        </ng-container>
+
+
+
+        <ng-container cdkColumnDef="infoSystem">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('infoSystem')">Наим. ИС</th>
+          <td cdk-cell *cdkCellDef="let row">{{row.infoSystem}} </td>
+        </ng-container>
+
+
+        <ng-container cdkColumnDef="externalNetwork">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('externalNetwork')">Для внутр. сети
+          </th>
+          <td cdk-cell *cdkCellDef="let row">{{row.externalNetwork }} </td>
+        </ng-container>
+        <ng-container cdkColumnDef="internalNetwork">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('internalNetwork')">Для внешней.
+            сети </th>
+          <td cdk-cell *cdkCellDef="let row">{{row.internalNetwork }} </td>
+        </ng-container>
+        <ng-container cdkColumnDef="date">
+          <th cdk-header-cell *cdkHeaderCellDef mat-sort-header (click)="adjustSort('date')">Дата</th>
+          <td cdk-cell *cdkCellDef="let row">{{row.date | date : "dd.MM.y"}} </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="controls">
+          <th cdk-header-cell *cdkHeaderCellDef> </th>
+          <td cdk-cell *cdkCellDef="let row">
+            <button class="btn btn-primary btn-small" (click)="onClickRow(row)">
+              <i class="fas fa-info-circle"></i>
+            </button>
+          </td>
+        </ng-container>
+      </table>
+
+      <mat-paginator [length]="tableDataSource$.value.length" [pageSize]="pageSize$.value" (page)="onPageChanged($event)"
+        [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
