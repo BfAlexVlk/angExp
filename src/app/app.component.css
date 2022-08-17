@@ -4,3 +4,12 @@
 .main-wrapper{
     margin-top:60px;
 }
+
+
+.create-dialog{
+background-color: red!important;
+}
+
+.info-dialog{
+    background-color: blue!important
+}

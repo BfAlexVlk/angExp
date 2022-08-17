@@ -12,4 +12,4 @@ export class StatusPipe implements PipeTransform {
 }
 const Statuses= [
   'Создание','Регистрация','Изменение','Удаление'
-]
+] 

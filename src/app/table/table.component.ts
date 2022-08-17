@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Request } from './request-data';
+import { Request } from '../models/request';
 import { FormControl } from '@angular/forms';
 import { RequestService } from './request.service';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
-import { CdkDialogStylingExampleDialog } from '../info-dialog/info-dialog.component';
+import { InfoRequestDialog } from '../info-dialog/info-dialog.component';
 import { CreateRequestDialog } from '../create-dialog/create-dialog.component';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { StatusPipe} from '../status.pipe';
+import { StatusPipe} from '../status.pipe'; 
 
 import { columnNames, requestList } from './data';
 
@@ -40,26 +40,28 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     combineLatest(this.tableDataSource$, this.currentPage$, this.pageSize$)
-      .subscribe(([allSources, currentPage, pageSize]) => {       
+      .subscribe(([allSources, currentPage, pageSize]) => {  
+
         const startingIndex = (currentPage - 1) * pageSize;
-        const onPage = allSources.slice(startingIndex, startingIndex + pageSize);
+        
+        const onPage = allSources.slice(startingIndex, startingIndex + pageSize); 
         this.dataOnPage$.next(onPage);
       });
 
 
-    this.requestData$.pipe(take(1)).subscribe(heroData => {
-      this.tableDataSource$.next(Object.values(heroData));
+    this.requestData$.pipe(take(1)).subscribe(requestData => {
+      this.tableDataSource$.next(Object.values(requestData));
     });
 
     combineLatest(this.requestData$, this.searchFormControl.valueChanges, this.sortKey$, this.sortDirection$)
-      .subscribe(([changedHeroData, searchTerm, sortKey, sortDirection]) => {
-        const heroesArray = Object.values(changedHeroData);
+      .subscribe(([changedReqData, searchTerm, sortKey, sortDirection]) => {
+        const reqArray = Object.values(changedReqData);
         let filteredRows: any[];
 
         if (!searchTerm) {
-          filteredRows = heroesArray;
+          filteredRows = reqArray;
         } else {
-          const filteredResults = heroesArray.filter(hero => {
+          const filteredResults = reqArray.filter(hero => {
             return Object.values(hero)
               .reduce((prev, curr) => {
                 return prev || curr.toString().toLowerCase().includes(searchTerm.toLowerCase());
@@ -68,13 +70,13 @@ export class TableComponent implements OnInit {
           filteredRows = filteredResults;
         }
 
-        const sortedHeroes = filteredRows.sort((a, b) => {
+        const sortedRows = filteredRows.sort((a, b) => {
           if (a[sortKey] > b[sortKey]) return sortDirection === 'asc' ? 1 : -1;
           if (a[sortKey] < b[sortKey]) return sortDirection === 'asc' ? -1 : 1;
           return 0;
         });
 
-        this.tableDataSource$.next(sortedHeroes);
+        this.tableDataSource$.next(sortedRows);
       });
 
     this.searchFormControl.setValue('');
@@ -97,31 +99,37 @@ export class TableComponent implements OnInit {
   }
 
   onCreate():void{
-    var dRef = this.dialog.open<any>(CreateRequestDialog );
+    var dRef = this.dialog.open<any>(CreateRequestDialog , {data :Request,  
+      panelClass: 'container'  });
     dRef.closed.subscribe(result => {
-      if (result) {
-
-         console.log('result', result)
-      }
-
-
-    });  
-  }
-  onClickRow(row: any): void {
-    var dRef = this.dialog.open<any>(CdkDialogStylingExampleDialog, {
-      data: row
-    });
-    dRef.closed.subscribe(result => {
-      if (result) {
-
+      if (result!=null) { 
+        result.date =new Date()        
         this.requestData$.next(this.requestData$.getValue().concat([result]));
       }
+    });  
+  }
+
+  
+  onClickRow(row: any): void {
+    var dRef = this.dialog.open<any>(InfoRequestDialog, {
+      data: row,  
+       panelClass: 'container'  
+    });
+    dRef.closed.subscribe(result => {
+      /*
+      if (result) {
+
+        this.requestData$.next(this.requestData$.getValue().concat([]));
+      } */
 
 
     });
   }
 
-  onPageChanged($event: PageEvent) {
+  onPageChanged($event: PageEvent) { 
+    if ($event.pageSize != this.pageSize$.value){
+      this.pageSize$.next($event.pageSize);
+    }
     this.currentPage$.next($event.pageIndex + 1)
   }
 

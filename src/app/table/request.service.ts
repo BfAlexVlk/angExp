@@ -1,6 +1,6 @@
-import { Observable, of } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
-import {  Request } from "./request-data";
+import { Request } from "../models/request";
 import { Injectable } from "@angular/core";
 import  {requestList} from "./data";
  
@@ -10,4 +10,6 @@ export class RequestService {
     // https://next.json-generator.com/4JbHJjvAF
     return of(requestList).pipe(delay(100));
   }
+  
+ 
 }

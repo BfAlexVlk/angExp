@@ -82,7 +82,7 @@
         </ng-container>
       </table>
 
-      <mat-paginator [length]="tableDataSource$.value.length" [pageSize]="pageSize$.value" (page)="onPageChanged($event)"
+      <mat-paginator [length]="tableDataSource$.value.length"  (page)="onPageChanged($event)"
         [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
       </mat-paginator>
     </div>

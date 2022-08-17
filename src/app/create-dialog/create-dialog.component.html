@@ -1,50 +1,84 @@
 <div id="modal-content-wrapper">
-    
-<div class="" tabindex="-1" role="dialog">
+
+  <div class="" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-centered " role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Заявка</h5>
-           
+
         </div>
         <div class="modal-body">
-          <form>
+          <form [formGroup]="form" (submit)="submit()" [ngClass]=" form.invalid  ? 'invalid-form' : 'valid-form' ">
+
+
             <div class="form-group">
-              <label for="exampleFormControlInput1">Email address</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+
+              <mat-form-field appearance="fill">
+                <mat-label>Тип записи</mat-label>
+                <mat-select formControlName="type" name="type" [(ngModel)]="formData.type">
+                  <mat-option *ngFor="let reqType of [1,2,3,4,5]" [value]="reqType" required>
+                    {{reqType}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Example select</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
+<mat-form-field appearance="fill">
+                  <mat-label>Информационная система</mat-label>
+                  <input matInput formControlName="infoSystem" name="infoSystem" required=""
+                    [(ngModel)]="formData.infoSystem">
+                </mat-form-field>
+            </div>
+
+            <div class="form-group d-flex">
+              <div class="col-6">
+                <mat-form-field appearance="fill">
+                  <mat-label>Тип записи</mat-label>
+                  <mat-select formControlName="status" name="status" [(ngModel)]="formData.status">
+                    <mat-option *ngFor="let st of [1,2,3,4]" [value]="st" required>
+                      {{st | status}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field appearance="fill">
+                  <mat-label>Рег. номер</mat-label>
+                  <input matInput name="regNum" formControlName="regNum" [(ngModel)]="formData.regNum" required="">
+                </mat-form-field>
+              </div>
+
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect2">Example multiple select</label>
-              <select multiple class="form-control" id="exampleFormControlSelect2">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
+              <mat-form-field appearance="fill">
+                <mat-label>Доменное имя</mat-label>
+                <input matInput formControlName="domainName" name="domainName" required=""
+                  [(ngModel)]="formData.domainName">
+              </mat-form-field>
             </div>
+            <div class="form-group d-flex">
+              
+              <div class="col-6"><mat-form-field appearance="fill">
+                <mat-label>Для внутренней сети</mat-label>
+                <input matInput formControlName="internalNetwork" name="internalNetwork" required=""
+                  [(ngModel)]="formData.internalNetwork">
+              </mat-form-field></div>
+              <div class="col-6">  <mat-form-field appearance="fill">
+                <mat-label>Для внешней сети</mat-label>
+                <input matInput formControlName="externalNetwork" name="externalNetwork" required=""
+                  [(ngModel)]="formData.externalNetwork">
+              </mat-form-field></div>
+            </div>
+
             <div class="form-group">
-              <label for="exampleFormControlTextarea1">Example textarea</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn" (click)="dialogRef.close(null)">Отменить</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Создать</button>
             </div>
           </form>
         </div>
-        <div class="modal-footer">
-          
-            <button  class="btn btn-primary" (click)="dialogRef.close(data)">Ok</button>
-            
-        </div>
       </div>
     </div>
-  </div>
-</div>
